@@ -88,4 +88,35 @@ describe('Registerable', function() {
                     done(error, registerable);
                 });
     });
+
+    it('should be able to auto confirm registration', function(done) {
+        var UserSchema = new Schema({});
+        UserSchema.plugin(Police, {
+            registerable: {
+                autoConfirm: true
+            }
+        });
+        var User = mongoose.model('RegaUser', UserSchema);
+
+        var credentials = {
+            email: email,
+            password: faker.internet.password()
+        };
+
+        User
+            .register(credentials, function(error, registerable) {
+                if (error) {
+                    done(error);
+                } else {
+
+                    expect(registerable.registeredAt).to.not.be.null;
+                    expect(registerable.email).to.be.equal(credentials.email);
+
+                    expect(registerable.confirmationToken).to.not.be.null;
+                    expect(registerable.confirmedAt).to.not.be.null;
+
+                    done();
+                }
+            });
+    });
 });

@@ -15,6 +15,7 @@ test
 *.log
 .jshintrc
 .editorconfig
+docs
 doc.html
 .travis.yml
 Gruntfile.js

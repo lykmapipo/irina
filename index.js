@@ -33,6 +33,9 @@ module.exports = exports = function Police(schema, options) {
         recoverable: {
             tokenLifeSpan: 3
         },
+        registerable: {
+            autoConfirm: false
+        },
         trackable: {}
     }, options || {});
 
