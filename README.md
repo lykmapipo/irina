@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/lykmapipo/mongoose-police.svg?branch=master)](https://travis-ci.org/lykmapipo/mongoose-police)
 
-Simple and flexible authentication workflows for [mongoose]() inspired by 
+Simple and flexible authentication workflows for [mongoose](https://github.com/Automattic/mongoose) inspired by 
 [devise](https://github.com/plataformatec/devise).
 
 ## Usage
