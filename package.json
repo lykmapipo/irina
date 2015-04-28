@@ -1,0 +1,58 @@
+{
+    "name": "mongoose-authenticable",
+    "version": "0.1.0",
+    "description": "DRY authentication plugin for mongoose schema",
+    "keywords": [
+        "mongoose",
+        "mongoose-plugin",
+        "authenticable",
+        "authentication",
+        "account",
+        "user",
+        "authenticate",
+        "login"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lykmapipo/mongoose-authenticable.git"
+    },
+    "author": {
+        "name": "lykmapipo",
+        "email": "lallyelias87@gmail.com",
+        "url": "https://github.com/lykmapipo"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/lykmapipo/mongoose-authenticable/issues"
+    },
+    "homepage": "https://github.com/lykmapipo/mongoose-authenticable",
+    "contributors": [{
+        "name": "lykmapipo",
+        "github": "https://github.com/lykmapipo"
+    }],
+    "devDependencies": {
+        "chai": "^2.2.0",
+        "faker": "^2.1.2",
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.11.2",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-mocha-test": "^0.12.7",
+        "jshint-stylish": "^1.0.1",
+        "mocha": "^2.2.4",
+        "mongoose": "^4.0.2"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.1.0"
+    },
+    "peerDependencies": {
+        "async": "^0.9.0",
+        "lodash": "^3.7.0",
+        "moment": "^2.10.2",
+        "mongoose-autopopulate": "^0.1.0",
+        "mongoose-hidden": "^0.4.1"
+    }
+}
