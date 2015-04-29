@@ -54,7 +54,7 @@ describe('Recoverable', function() {
 
     });
 
-    it('should be able to send recovery notification', function(done) {
+    it('should be able to send recovery instruction', function(done) {
         var User = mongoose.model('RecUser');
 
         var user = new User({
@@ -85,7 +85,7 @@ describe('Recoverable', function() {
         });
     });
 
-    it('should be able to recover a password', function(done) {
+    it('should be able to recover account password', function(done) {
         var User = mongoose.model('RecUser');
         var previousPassord;
 
