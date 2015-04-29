@@ -35,6 +35,7 @@
         "github": "https://github.com/lykmapipo"
     }],
     "devDependencies": {
+        "async": "^0.9.0",
         "chai": "^2.2.0",
         "faker": "^2.1.2",
         "grunt": "^0.4.5",
@@ -42,8 +43,12 @@
         "grunt-contrib-watch": "^0.6.1",
         "grunt-mocha-test": "^0.12.7",
         "jshint-stylish": "^1.0.1",
+        "lodash": "^3.7.0",
         "mocha": "^2.2.4",
-        "mongoose": "^4.0.2"
+        "moment": "^2.10.2",
+        "mongoose": "^4.0.2",
+        "mongoose-autopopulate": "^0.1.0",
+        "mongoose-hidden": "^0.4.1"
     },
     "dependencies": {
         "bcryptjs": "^2.1.0"

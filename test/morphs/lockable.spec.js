@@ -55,7 +55,7 @@ describe('Lockable', function() {
             });
     });
 
-    it('should be able to send unlock notification', function(done) {
+    it('should be able to send unlock instructions', function(done) {
         var User = mongoose.model('LUser');
 
         var user = new User({
@@ -76,7 +76,7 @@ describe('Lockable', function() {
             });
     });
 
-    it('should have lock ability', function(done) {
+    it('should be able to lock account', function(done) {
         var User = mongoose.model('LUser');
 
         var user = new User({
@@ -98,7 +98,7 @@ describe('Lockable', function() {
             });
     });
 
-    it('should have unlock ability', function(done) {
+    it('should be able to unlock account', function(done) {
         var User = mongoose.model('LUser');
         async
             .waterfall(
@@ -137,6 +137,37 @@ describe('Lockable', function() {
     });
 
     it('should be able to reset failed attempts', function(done) {
-        done();
+        var User = mongoose.model('LUser');
+
+        var user = new User({
+            email: faker.internet.email(),
+            password: faker.internet.password(),
+            failedAttempts: 5
+        });
+
+        expect(user.resetFailedAttempts).to.be.a('function');
+
+        async
+            .waterfall([
+                function save(next) {
+                    user.save(function(error) {
+                        if (error) {
+                            next(error);
+                        } else {
+                            next(null, user);
+                        }
+                    });
+                },
+                function resetFailedAttempts(user, next) {
+                    user.resetFailedAttempts(next);
+                }
+            ], function(error, lockable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(lockable.failedAttempts).to.be.equal(0);
+                    done();
+                }
+            });
     });
 });
