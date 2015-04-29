@@ -30,7 +30,7 @@ describe('confirmable', function() {
         done();
     });
 
-    it('should be able to generate confirmation token and set confirmation expriry at date', function(done) {
+    it('should be able to generate confirmation token', function(done) {
         var User = mongoose.model('ConUser');
 
         var user = new User({
@@ -52,7 +52,7 @@ describe('confirmable', function() {
             });
     });
 
-    it('should be able to send confirmation notification', function(done) {
+    it('should be able to send confirmation instructions', function(done) {
         var User = mongoose.model('ConUser');
 
         var user = new User({
@@ -101,7 +101,8 @@ describe('confirmable', function() {
                 });
     });
 
-    it('should check for confirmation', function(done) {
-        done();
-    });
+    //TODO
+    // it('should check for confirmation', function(done) {
+    //     done();
+    // });
 });
