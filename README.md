@@ -1,4 +1,4 @@
-# mongoose-police
+# mongoose-police (WIP)
 
 [![Build Status](https://travis-ci.org/lykmapipo/mongoose-police.svg?branch=master)](https://travis-ci.org/lykmapipo/mongoose-police)
 

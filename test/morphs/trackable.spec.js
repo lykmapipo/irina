@@ -92,8 +92,8 @@ describe('Trackable', function() {
                         expect(trackable.signInCount).to.equal(2);
 
                         expect(trackable.lastSignInAt).to.not.be.null;
-                        expect(trackable.lastSignInAt.getTime())
-                            .to.equal(lastSignInAt.getTime());
+                        expect(trackable.lastSignInAt)
+                            .to.eql(lastSignInAt);
 
                         expect(trackable.lastSignInIpAddress).to.not.be.null;
                         expect(trackable.lastSignInIpAddress).to.equal(previousIp);
