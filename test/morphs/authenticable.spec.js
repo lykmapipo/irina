@@ -158,7 +158,7 @@ describe('Authenticable', function() {
         done();
     });
 
-    it('should be able to authenticate', function(done) {
+    it('should be able to authenticate credentials', function(done) {
         var credentials = {
             email: faker.internet.email(),
             password: faker.internet.password()
