@@ -15,9 +15,14 @@ var User = new Schema({ ... });
 User.plugin(police, options);
 ```
 
-## Options
+## Modules
 
-(Under Construction)
+### Authenticable
+### Confirmable
+### Lockable
+### Recoverable
+### Registerable
+### Trackable
 
 ## Testing
 * Clone this repository
