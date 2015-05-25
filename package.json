@@ -1,11 +1,21 @@
 {
-    "name": "mongoose-authenticable",
+    "name": "irina",
     "version": "0.1.0",
-    "description": "DRY authentication plugin for mongoose schema",
+    "description": "Simple and flexible authentication workflows for mongoose",
     "keywords": [
         "mongoose",
         "mongoose-plugin",
         "authenticable",
+        "confirmable",
+        "lockable",
+        "lock",
+        "recoverable",
+        "recover",
+        "registerable",
+        "register",
+        "registration",
+        "trackable",
+        "track",
         "authentication",
         "account",
         "user",
@@ -18,7 +28,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/lykmapipo/mongoose-authenticable.git"
+        "url": "https://github.com/lykmapipo/irina.git"
     },
     "author": {
         "name": "lykmapipo",
@@ -27,9 +37,9 @@
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/lykmapipo/mongoose-authenticable/issues"
+        "url": "https://github.com/lykmapipo/irina/issues"
     },
-    "homepage": "https://github.com/lykmapipo/mongoose-authenticable",
+    "homepage": "https://github.com/lykmapipo/irina",
     "contributors": [{
         "name": "lykmapipo",
         "github": "https://github.com/lykmapipo"

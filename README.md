@@ -1,6 +1,6 @@
-# mongoose-police (WIP)
+# irina (WIP)
 
-[![Build Status](https://travis-ci.org/lykmapipo/mongoose-police.svg?branch=master)](https://travis-ci.org/lykmapipo/mongoose-police)
+[![Build Status](https://travis-ci.org/lykmapipo/irina.svg?branch=master)](https://travis-ci.org/lykmapipo/irina)
 
 Simple and flexible authentication workflows for [mongoose](https://github.com/Automattic/mongoose) inspired by 
 [devise](https://github.com/plataformatec/devise).
@@ -8,7 +8,7 @@ Simple and flexible authentication workflows for [mongoose](https://github.com/A
 ## Usage
 
 ```javascript
-var police = require('mongoose-police');
+var police = require('irina');
 
 var User = new Schema({ ... });
 
