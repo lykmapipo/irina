@@ -141,7 +141,7 @@ user
 
 ```
 
-- `sendConfirmation(callback(error,confirmable))` : This instance method which utilizes `[model send()](https://github.com/lykmapipo/irina#sending-email)` and send the confirmation notification. On successfully send, it will update `confirmationSentAt` instance attribute with the current time stamp and persist the instance before return it.
+- `sendConfirmation(callback(error,confirmable))` : This instance method which utilizes [model.send()](https://github.com/lykmapipo/irina#sending-notifications) and send the confirmation notification. On successfully send, it will update `confirmationSentAt` instance attribute with the current time stamp and persist the instance before return it.
 
 Example
 ```js
