@@ -8,21 +8,27 @@ Simple and flexible authentication workflows for [mongoose](https://github.com/A
 ## Usage
 
 ```javascript
-var police = require('irina');
+var irina = require('irina');
 
 var User = new Schema({ ... });
 
-User.plugin(police, options);
+User.plugin(irina, options);
 ```
 
 ## Modules
 
 ### Authenticable
+
 ### Confirmable
+
 ### Lockable
+
 ### Recoverable
+
 ### Registerable
+
 ### Trackable
+
 
 ## Testing
 * Clone this repository
