@@ -8,11 +8,36 @@ Simple and flexible authentication workflows for [mongoose](https://github.com/A
 ## Usage
 
 ```javascript
+var mongoose = require('mongoose');
 var irina = require('irina');
 
-var User = new Schema({ ... });
+//define User schema
+var UserSchema = new Schema({ ... });
 
-User.plugin(irina, options);
+//plugin irina to User schema
+User.plugin(irina);
+
+//register user schema
+mongoose.model('User',UserSchema);
+
+...
+
+//register a new user account
+User.register(credentials,done);
+
+//confirm user registration
+User.confirm('confirmationToken',done);
+
+//authenticate provided user credentials
+User.authenticate(credentials,done);
+
+//unlock locked user account
+User.unlock('unlockToken',done);
+
+//see Modules docs for more
+
+...
+
 ```
 
 ## Modules
