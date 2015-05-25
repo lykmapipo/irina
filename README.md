@@ -1,4 +1,4 @@
-# irina (WIP)
+# irina
 
 [![Build Status](https://travis-ci.org/lykmapipo/irina.svg?branch=master)](https://travis-ci.org/lykmapipo/irina)
 
@@ -451,19 +451,19 @@ User
 
 ``` 
 
-## Sending Email
-The default implementation of `irina` to send email is `noop`. This is because there are different use case(s) when it come on sending email notification.
+## Sending Notifications
+The default implementation of `irina` to send notifications is `noop`. This is because there are different use case(s) when it come on sending notifications.
 
-Due to that reason, `irina` requires your model to implement `send`method which accept `type, authentication, done` as it argurments.
+Due to that reason, `irina` requires your model to implement `send` method which accept `type, authentication, done` as it argurments.
 
-- `type` : Refer to the type of email notifcation to be sent. There are just three types which are `Account confirmation`, `Account recovery` and `Password recover` which are sent when new account is registered, an account is locked and need to be unlocked and when account is requesting to recover the password repsectively.
+- `type` : Refer to the type of notifcation to be sent. There are just three types which are `Account confirmation`, `Account recovery` and `Password recover` which are sent when new account is registered, an account is locked and need to be unlocked and when account is requesting to recover the password repsectively.
 
 - `authenticable` : Refer to the current user model instance.
 
 - `done` : Is the callback that you must call after finish sending the notification. By default this callback will update notification send details based on the usage.
 
-### How to implement a sendEmail
-Simple add `send` into your model `instance methods`.
+### How to implement a send
+Simple add `send` into your model as `instance methods`.
 
 ```js
 var UserSchema = new Schema({
@@ -472,7 +472,8 @@ var UserSchema = new Schema({
 
 //the add send
 UserSchema.methods.send = function(type, authenticable, done) {
-        //your transport implementation
+        //your notification sending implementation
+        //i.e email, sms, etc
         console
             .log(
                 'Notification type: %s.\nAuthenticable: %s \n',
@@ -487,8 +488,8 @@ UserSchema.methods.send = function(type, authenticable, done) {
 ```
 Thats all needed and `irina` will be able to utilize your `send` implementation.
 
-### Sending Email Issues
-It is recommended to use job queue like [kue](https://github.com/learnboost/kue) when implementing your `sendEmail` to reduce your API response time.
+### Sending Issues
+It is recommended to use job queue like [kue](https://github.com/learnboost/kue) when implementing your `send` to reduce your API response time.
 
 
 ## Testing
