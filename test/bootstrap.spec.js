@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 
 before(function(done) {
     //setup database
-    mongoose.connect('mongodb://localhost/authenticable', done);
+    mongoose.connect('mongodb://localhost/irina', done);
 });
 
 /**
