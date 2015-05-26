@@ -53,21 +53,22 @@
         "grunt-contrib-watch": "^0.6.1",
         "grunt-mocha-test": "^0.12.7",
         "jshint-stylish": "^1.0.1",
-        "lodash": "^3.7.0",
+        "lodash": "^3.9.3",
         "mocha": "^2.2.4",
         "moment": "^2.10.2",
-        "mongoose": "^4.0.2",
+        "mongoose": "^4.0.3",
         "mongoose-autopopulate": "^0.1.0",
-        "mongoose-hidden": "^0.4.1"
+        "mongoose-hidden": "^0.4.1",
+        "mongoose-valid8": "^0.1.0"
     },
     "dependencies": {
         "bcryptjs": "^2.1.0"
     },
     "peerDependencies": {
         "async": "^0.9.0",
-        "lodash": "^3.7.0",
         "moment": "^2.10.2",
         "mongoose-autopopulate": "^0.1.0",
-        "mongoose-hidden": "^0.4.1"
+        "mongoose-hidden": "^0.4.1",
+        "mongoose-valid8": "^0.1.0"
     }
 }

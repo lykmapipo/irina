@@ -534,7 +534,10 @@ It will be nice, if you open an issue first so that we can know what is going on
 
 
 ## TODO
-- [ ] Plugin mongoose-hidden and timestamp into use schema
+- [ ] Plugin mongoose-hidden,autopopulate and timestamp into use schema
+- [ ] Autopulate specified path when fetch user
+- [ ] Test registering without email and password for crypto errors
+- [ ] Make sure empty password are not used in registration
 
 
 ## Licence
