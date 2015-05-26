@@ -4,6 +4,9 @@
 var async = require('async');
 var mongoose = require('mongoose');
 
+//apply mongoose plugins
+mongoose.plugin(require('mongoose-valid8'));
+
 before(function(done) {
     //setup database
     mongoose.connect('mongodb://localhost/irina', done);
