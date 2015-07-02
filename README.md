@@ -533,6 +533,9 @@ $ npm test
 It will be nice, if you open an issue first so that we can know what is going on, then, fork this repo and push in your ideas. Do not forget to add a bit of test(s) of what value you adding.
 
 
+## TODO
+- [ ] Lowercase authentication field if it is email
+
 
 ## Licence
 The MIT License (MIT)
