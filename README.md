@@ -34,6 +34,12 @@ User.authenticate(credentials,done);
 //unlock locked user account
 User.unlock('unlockToken',done);
 
+//request passwword recovering
+User.requestRecover(criteria,done)
+
+//recover user password and set new password
+User.recover(recoveryToken, newPassword, done);
+
 //see Modules docs for more
 
 ...
