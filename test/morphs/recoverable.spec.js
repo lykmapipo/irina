@@ -85,6 +85,38 @@ describe('Recoverable', function() {
         });
     });
 
+    it('should be able to request recover account password', function(done) {
+        var User = mongoose.model('RecUser');
+
+        async
+            .waterfall(
+                [
+                    function(next) {
+                        User
+                            .register({
+                                email: faker.internet.email(),
+                                password: faker.internet.password()
+                            }, next);
+                    },
+                    function(recoverable, next) {
+                        User.requestRecover({
+                            email: recoverable.email
+                        }, next);
+                    }
+                ],
+                function(error, recoverable) {
+                    if (error) {
+                        done(error);
+                    } else {
+                        expect(recoverable.recoveryToken).to.not.be.null;
+                        expect(recoverable.recoveryTokenExpiryAt).to.not.be.null;
+                        expect(recoverable.recoveryTokenSentAt).to.not.be.null;
+                        done();
+                    }
+                });
+    });
+
+
     it('should be able to recover account password', function(done) {
         var User = mongoose.model('RecUser');
         var previousPassord;
