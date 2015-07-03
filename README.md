@@ -359,6 +359,28 @@ user
 
 ```
 
+
+- `requestRecover(criteria, callback(error,recoverable))` : A model static method which is used to request account password recovery. It utilize `generateRecoveryToken` and `sendRecovery` to generate recovery token and send it.  
+
+Example
+```js
+
+...
+
+User
+    .requestRecover({email:'ex@ex.com'},function(error, recoverable) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log(recoverable);
+            }
+        });
+
+...
+
+```
+
+
 - `recover(recoveryToken, newPassword, callback(error,recoverable))` : A model static method which is used to recover an account with the matched `recoverToken`. The `newPassword` provided will get encrypted before set as user password. It will set `recoveredAt` before persist the model. 
 
 Example
