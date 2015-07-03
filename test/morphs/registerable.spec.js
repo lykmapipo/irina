@@ -10,6 +10,11 @@ var Schema = mongoose.Schema;
 var irina = require(path.join(__dirname, '..', '..', 'index'));
 var email = faker.internet.email();
 
+var $credentials = {
+    email: email,
+    password: faker.internet.password()
+};
+
 describe('Registerable', function() {
     before(function(done) {
         var UserSchema = new Schema({});
@@ -40,23 +45,32 @@ describe('Registerable', function() {
     it('should be able to register', function(done) {
         var User = mongoose.model('RegUser');
 
-        var credentials = {
-            email: email,
-            password: faker.internet.password()
-        };
-
         User
-            .register(credentials, function(error, registerable) {
+            .register($credentials, function(error, registerable) {
                 if (error) {
                     done(error);
                 } else {
                     expect(registerable.registeredAt).to.not.be.null;
-                    expect(registerable.email).to.be.equal(credentials.email.toLowerCase());
+                    expect(registerable.email).to.be.equal($credentials.email.toLowerCase());
 
                     done();
                 }
             });
     });
+
+
+    it('should not be able to register with authentication field which is already taken', function(done) {
+        var User = mongoose.model('RegUser');
+
+        User
+            .register($credentials, function(error /*, registerable*/ ) {
+                expect(error).to.exist;
+                expect(error.message)
+                    .to.equal('Account with email ' + $credentials.email + ' already exist');
+                done();
+            });
+    });
+
 
     it('should be able to unregister', function(done) {
         var User = mongoose.model('RegUser');
