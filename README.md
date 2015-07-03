@@ -21,7 +21,7 @@ Simple and flexible authentication workflows for [mongoose](https://github.com/A
         * [sendConfirmation](#sendconfirmationcallbackerrorconfirmable-)
         * [confirm](#confirmconfirmationtoken-callbackerrorconfirmable-)
     * [Lockable](#lockable)
-         * [generateUlockToken](#generateunlocktokencallbackerrorlockable-)
+        * [generateUnlockToken](#generateunlocktokencallbackerrorlockable-)
         * [sendLock](#sendlockcallbackerrorlockable-)
         * [lock](#lockcallbackerrorlockable-)
         * [unlock](#unlockunlocktoken-callbackerrorlockable-)
