@@ -98,6 +98,35 @@ describe('Lockable', function() {
             });
     });
 
+
+    it('should be able to check if account is locked', function(done) {
+        var User = mongoose.model('LUser');
+
+        var user = new User({
+            email: faker.internet.email(),
+            password: faker.internet.password(),
+            failedAttempts: 5
+        });
+
+        expect(user.isLocked).to.be.a('function');
+
+        async.waterfall([
+            function(next) {
+                user.lock(next);
+            },
+            function(lockable, next) {
+                user.isLocked(next);
+            }
+        ], function(error /*, lockable*/ ) {
+            expect(error).to.exist;
+            expect(error.message)
+                .to.equal('Account locked. Check unlock instructions sent to you.');
+
+            done();
+        });
+    });
+
+
     it('should be able to unlock account', function(done) {
         var User = mongoose.model('LUser');
         async
@@ -157,7 +186,7 @@ describe('Lockable', function() {
                         lockable.authenticate(credentials.password, next);
                     }
                 ],
-                function(error/*, lockable*/) {
+                function(error /*, lockable*/ ) {
 
                     expect(error).to.exist;
                     expect(error.message)
