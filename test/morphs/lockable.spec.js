@@ -136,6 +136,37 @@ describe('Lockable', function() {
                 });
     });
 
+    it('should not be able to authenticate locked account', function(done) {
+        var User = mongoose.model('LUser');
+        var credentials = {
+            email: faker.internet.email(),
+            password: faker.internet.password(),
+            failedAttempts: 5
+        };
+
+        async
+            .waterfall(
+                [
+                    function(next) {
+                        next(null, new User(credentials));
+                    },
+                    function(lockable, next) {
+                        lockable.lock(next);
+                    },
+                    function(lockable, next) {
+                        lockable.authenticate(credentials.password, next);
+                    }
+                ],
+                function(error/*, lockable*/) {
+
+                    expect(error).to.exist;
+                    expect(error.message)
+                        .to.equal('Account locked. Check unlock instructions sent to you.');
+
+                    done();
+                });
+    });
+
     it('should be able to reset failed attempts', function(done) {
         var User = mongoose.model('LUser');
 
