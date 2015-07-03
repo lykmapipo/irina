@@ -16,6 +16,7 @@ Simple and flexible authentication workflows for [mongoose](https://github.com/A
     * [Recoverable](#recoverable)
     * [Registerable](#registerable)
     * [Trackable](#trackable)
+    * [Send Notifications](#sending-notifications)
 
 ## Installation
 ```sh
