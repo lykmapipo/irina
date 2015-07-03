@@ -223,8 +223,8 @@ user
 
 ```
 
-#### `confirm(confirmationToken, callback(error,confirmable))` : This 
-static/class method taken the given `confirmationToken` and confirm un-confirmed registration which match the given confirmation token. It 
+#### `confirm(confirmationToken, callback(error,confirmable))` : 
+This static/class method taken the given `confirmationToken` and confirm un-confirmed registration which match the given confirmation token. It 
 will update `confirmedAt` instance attribute and persist the instance 
 before return it.
 
@@ -581,6 +581,8 @@ var UserSchema = new Schema({
 
 //the add send
 UserSchema.methods.send = function(type, authenticable, done) {
+    //if we send confirmation email
+    if (type === 'Account confirmation') {
         //your notification sending implementation
         //i.e email, sms, etc
         console
@@ -589,8 +591,36 @@ UserSchema.methods.send = function(type, authenticable, done) {
                 type,
                 JSON.stringify(authenticable)
             );
-        done();
-    };
+            done();
+    }
+    //if we send account recovery
+    if (type === 'Password recovery') {
+       //your notification sending implementation
+        //i.e email, sms, etc
+        console
+            .log(
+                'Notification type: %s.\nAuthenticable: %s \n',
+                type,
+                JSON.stringify(authenticable)
+            );
+            done();
+    }
+    //if we send account locked information
+    if (type === 'Account recovery') {
+        //your notification sending implementation
+        //i.e email, sms, etc
+        console
+            .log(
+                'Notification type: %s.\nAuthenticable: %s \n',
+                type,
+                JSON.stringify(authenticable)
+            );
+            done();
+    }
+    
+    ...
+
+};
 
 ...
 
