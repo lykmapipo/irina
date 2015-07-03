@@ -7,7 +7,7 @@ var path = require('path');
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
 var Schema = mongoose.Schema;
-var Police = require(path.join(__dirname, '..', '..', 'index'));
+var irina = require(path.join(__dirname, '..', '..', 'index'));
 
 var previousIp = faker.internet.ip();
 var currentIp = faker.internet.ip();
@@ -16,7 +16,7 @@ var email = faker.internet.email();
 describe('Trackable', function() {
     before(function(done) {
         var UserSchema = new Schema({});
-        UserSchema.plugin(Police);
+        UserSchema.plugin(irina);
         mongoose.model('TUser', UserSchema);
 
         done();

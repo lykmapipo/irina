@@ -7,13 +7,13 @@ var path = require('path');
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
 var Schema = mongoose.Schema;
-var Police = require(path.join(__dirname, '..', '..', 'index'));
+var irina = require(path.join(__dirname, '..', '..', 'index'));
 
 
 describe('confirmable', function() {
     before(function(done) {
         var UserSchema = new Schema({});
-        UserSchema.plugin(Police);
+        UserSchema.plugin(irina);
         mongoose.model('ConUser', UserSchema);
 
         done();

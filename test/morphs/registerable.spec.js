@@ -7,13 +7,13 @@ var path = require('path');
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
 var Schema = mongoose.Schema;
-var Police = require(path.join(__dirname, '..', '..', 'index'));
+var irina = require(path.join(__dirname, '..', '..', 'index'));
 var email = faker.internet.email();
 
 describe('Registerable', function() {
     before(function(done) {
         var UserSchema = new Schema({});
-        UserSchema.plugin(Police);
+        UserSchema.plugin(irina);
         mongoose.model('RegUser', UserSchema);
 
         done();
@@ -91,7 +91,7 @@ describe('Registerable', function() {
 
     it('should be able to auto confirm registration', function(done) {
         var UserSchema = new Schema({});
-        UserSchema.plugin(Police, {
+        UserSchema.plugin(irina, {
             registerable: {
                 autoConfirm: true
             }

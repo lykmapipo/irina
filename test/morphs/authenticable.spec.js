@@ -3,16 +3,17 @@
 //dependencies
 var faker = require('faker');
 var async = require('async');
+var _ = require('lodash');
 var path = require('path');
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
 var Schema = mongoose.Schema;
-var Police = require(path.join(__dirname, '..', '..', 'index'));
+var irina = require(path.join(__dirname, '..', '..', 'index'));
 
 describe('Authenticable', function() {
     before(function(done) {
         var UserSchema = new Schema({});
-        UserSchema.plugin(Police);
+        UserSchema.plugin(irina);
         mongoose.model('AUser', UserSchema);
 
         done();
@@ -21,7 +22,7 @@ describe('Authenticable', function() {
     describe('Authenticable Fields', function() {
         it('should be able to set defaults authentication fields', function(done) {
             var UserSchema = new Schema({});
-            UserSchema.plugin(Police);
+            UserSchema.plugin(irina);
 
             var User = mongoose.model('BUser', UserSchema);
 
@@ -33,7 +34,7 @@ describe('Authenticable', function() {
 
         it('should be able to set custom authentication fields', function(done) {
             var UserSchema = new Schema({});
-            UserSchema.plugin(Police, {
+            UserSchema.plugin(irina, {
                 authenticationField: 'username',
                 authenticationFieldType: String,
                 passwordField: 'hash'
@@ -189,6 +190,39 @@ describe('Authenticable', function() {
 
                         done();
                     }
+                });
+    });
+
+
+    it('should throw error when authenticate credentials with invalid password', function(done) {
+        var credentials = {
+            email: faker.internet.email(),
+            password: faker.internet.password()
+        };
+
+        var _credentials = _.clone(credentials);
+        _credentials.password = faker.internet.password();
+
+        var User = mongoose.model('AUser');
+
+        async
+            .waterfall(
+                [
+                    function(next) {
+                        User
+                            .register(credentials, next);
+                    },
+                    function(authenticable, next) {
+                        User.confirm(authenticable.confirmationToken, next);
+                    },
+                    function(authenticable, next) {
+                        User.authenticate(_credentials, next);
+                    }
+                ],
+                function(error /*, authenticable*/ ) {
+                    expect(error).to.exist;
+                    expect(error.message).to.equal('Incorrect email or password');
+                    done();
                 });
     });
 });

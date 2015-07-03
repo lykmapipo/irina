@@ -15,12 +15,12 @@ var Trackable = require(path.join(morphsPath, 'trackable'));
 
 /**
  * @function
- * @description mongoose police plugin
+ * @description mongoose irina plugin
  * @param  {Schema} schema  valid mongoose schema
- * @param  {Object} options valid mongoose police plugin options
+ * @param  {Object} options valid mongoose irina plugin options
  * @public
  */
-module.exports = exports = function Police(schema, options) {
+module.exports = exports = function Irina(schema, options) {
     //prepare common options
     options = _.extend({
         confirmable: {
