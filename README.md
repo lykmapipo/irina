@@ -5,6 +5,23 @@
 Simple and flexible authentication workflows for [mongoose](https://github.com/Automattic/mongoose) inspired by 
 [devise](https://github.com/plataformatec/devise).
 
+## Guide
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Modules](#modules)
+    * [Authenticable](#authenticable)
+    * [Confirmable](#confirmable)
+    * [Lockable](#lockable)
+    * [Recoverable](#recoverable)
+    * [Registerable](#registerable)
+    * [Trackable](#trackable)
+
+## Installation
+```sh
+$ npm install --save irina
+```
+
 ## Usage
 
 ```javascript
@@ -12,7 +29,9 @@ var mongoose = require('mongoose');
 var irina = require('irina');
 
 //define User schema
-var UserSchema = new Schema({ ... });
+var UserSchema = new Schema({ 
+        ... 
+});
 
 //plugin irina to User schema
 User.plugin(irina);
@@ -34,7 +53,7 @@ User.authenticate(credentials,done);
 //unlock locked user account
 User.unlock('unlockToken',done);
 
-//request passwword recovering
+//request password recovering
 User.requestRecover(criteria,done)
 
 //recover user password and set new password
