@@ -67,7 +67,7 @@ describe('Trackable', function() {
                     function(next) {
                         User
                             .findOne({
-                                email: email
+                                email: email.toLowerCase()
                             })
                             .exec(next);
                     },

@@ -70,7 +70,7 @@ describe('Authenticable', function() {
                 if (error) {
                     done(error);
                 } else {
-                    expect(authenticable.email).to.be.equal(email);
+                    expect(authenticable.email).to.be.equal(email.toLowerCase());
                     expect(authenticable.password).to.not.equal(password);
                     done();
                 }
@@ -165,6 +165,9 @@ describe('Authenticable', function() {
             password: faker.internet.password()
         };
 
+        var _credentials = _.clone(credentials);
+        _credentials.email = credentials.email.toLowerCase();
+
         var User = mongoose.model('AUser');
 
         async
@@ -178,7 +181,7 @@ describe('Authenticable', function() {
                         User.confirm(authenticable.confirmationToken, next);
                     },
                     function(authenticable, next) {
-                        User.authenticate(credentials, next);
+                        User.authenticate(_credentials, next);
                     }
                 ],
                 function(error, authenticable) {
@@ -186,7 +189,7 @@ describe('Authenticable', function() {
                         done(error);
                     } else {
                         expect(authenticable).to.not.be.null;
-                        expect(authenticable.email).to.be.equal(credentials.email);
+                        expect(authenticable.email).to.be.equal(_credentials.email);
 
                         done();
                     }
@@ -202,6 +205,7 @@ describe('Authenticable', function() {
 
         var _credentials = _.clone(credentials);
         _credentials.password = faker.internet.password();
+        _credentials.email = credentials.email.toLowerCase();
 
         var User = mongoose.model('AUser');
 

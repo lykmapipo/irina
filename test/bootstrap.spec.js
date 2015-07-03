@@ -36,11 +36,17 @@ function wipe(done) {
 
 //clean database
 after(function(done) {
-    wipe(function(error) {
-        if (error && error.message !== 'ns not found') {
-            done(error);
-        } else {
-            done(null);
-        }
-    });
+    //wait for mongodb background tasks
+    //
+    //Fix for MongoError: exception: cannot perform operation: 
+    //a background operation is currently running for collection <collectionName>
+    setTimeout(function() {
+        wipe(function(error) {
+            if (error && error.message !== 'ns not found') {
+                done(error);
+            } else {
+                done(null);
+            }
+        });
+    }, 1000);
 });

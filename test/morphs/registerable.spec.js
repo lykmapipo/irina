@@ -51,7 +51,7 @@ describe('Registerable', function() {
                     done(error);
                 } else {
                     expect(registerable.registeredAt).to.not.be.null;
-                    expect(registerable.email).to.be.equal(credentials.email);
+                    expect(registerable.email).to.be.equal(credentials.email.toLowerCase());
 
                     done();
                 }
@@ -67,7 +67,7 @@ describe('Registerable', function() {
                     function(next) {
                         User
                             .findOne({
-                                email: email
+                                email: email.toLowerCase()
                             })
                             .exec(next);
                     },
@@ -110,7 +110,7 @@ describe('Registerable', function() {
                 } else {
 
                     expect(registerable.registeredAt).to.not.be.null;
-                    expect(registerable.email).to.be.equal(credentials.email);
+                    expect(registerable.email).to.be.equal(credentials.email.toLowerCase());
 
                     expect(registerable.confirmationToken).to.not.be.null;
                     expect(registerable.confirmedAt).to.not.be.null;
