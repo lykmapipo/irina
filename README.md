@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/lykmapipo/irina.svg?branch=master)](https://travis-ci.org/lykmapipo/irina)
 
+[![npm version](https://badge.fury.io/js/irina.svg)](http://badge.fury.io/js/irina)
+
 Simple and flexible authentication workflows for [mongoose](https://github.com/Automattic/mongoose) inspired by 
 [devise](https://github.com/plataformatec/devise).
 
