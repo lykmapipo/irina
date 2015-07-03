@@ -127,6 +127,29 @@ user
 
 ```
 
+#### `changePassword(newPassword, callback(error,authenticable))` : 
+An instance method which takes in a plain string `newPassword`, hash it and set it as a current password for this authenticable instance.
+
+Example
+
+```js
+
+...
+
+//after having model instance
+user
+    .changePassword(password,function(error, authenticable) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(authenticable);
+        }
+});
+
+...
+
+```
+
 #### `authenticate(credentials, callback(error,authenticable))` : 
 A model static method which takes in credentials in the format below : 
 
