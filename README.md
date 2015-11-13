@@ -175,7 +175,10 @@ A model static method which takes in credentials and additional `mongoose query 
 var faker = require('faker');
 var credentials = {
             email: faker.internet.email(),
-            password: faker.internet.password()
+            password: faker.internet.password(),
+            ...
+            //additional mongoose criteria
+            ....
         };
 ```
 
