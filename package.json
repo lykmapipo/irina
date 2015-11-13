@@ -1,12 +1,15 @@
 {
     "name": "irina",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Simple and flexible authentication workflows for mongoose",
     "keywords": [
         "mongoose",
         "mongoose-plugin",
         "authenticable",
+        "express",
+        "connect",
         "confirmable",
+        "confirm",
         "lockable",
         "lock",
         "recoverable",
@@ -20,7 +23,8 @@
         "account",
         "user",
         "authenticate",
-        "login"
+        "login",
+        "signup"
     ],
     "main": "index.js",
     "scripts": {

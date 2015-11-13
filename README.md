@@ -169,7 +169,7 @@ user
 ```
 
 #### `authenticate(credentials, callback(error,authenticable))` : 
-A model static method which takes in credentials in the format below : 
+A model static method which takes in credentials and additional `mongoose query criteria` in the format below : 
 
 ```js
 var faker = require('faker');
