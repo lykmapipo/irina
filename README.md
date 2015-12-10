@@ -60,24 +60,24 @@ var UserSchema = new Schema({
 User.plugin(irina);
 
 //register user schema
-mongoose.model('User',UserSchema);
+mongoose.model('User', UserSchema);
 
 ...
 
 //register a new user account
-User.register(credentials,done);
+User.register(credentials, done);
 
 //confirm user registration
-User.confirm('confirmationToken',done);
+User.confirm('confirmationToken', done);
 
 //authenticate provided user credentials
-User.authenticate(credentials,done);
+User.authenticate(credentials, done);
 
 //unlock locked user account
-User.unlock('unlockToken',done);
+User.unlock('unlockToken', done);
 
 //request password recovering
-User.requestRecover(criteria,done)
+User.requestRecover(criteria, done)
 
 //recover user password and set new password
 User.recover(recoveryToken, newPassword, done);
