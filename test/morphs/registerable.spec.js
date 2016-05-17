@@ -76,31 +76,31 @@ describe('Registerable', function() {
         var User = mongoose.model('RegUser');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .findOne({
-                                email: email.toLowerCase()
-                            })
-                            .exec(next);
-                    },
-                    function(registerable, next) {
-                        expect(registerable.unregister).to.be.a('function');
-                        next(null, registerable);
-                    },
-                    function(registerable, next) {
-                        //unregister
-                        registerable.unregister(next);
-                    },
-                    function(registerable, next) {
-                        expect(registerable.unregisteredAt).to.not.be.null;
-                        next(null, registerable);
-                    }
-                ],
-                function(error, registerable) {
-                    done(error, registerable);
-                });
+        .waterfall(
+            [
+                function(next) {
+                    User
+                        .findOne({
+                            email: email.toLowerCase()
+                        })
+                        .exec(next);
+                },
+                function(registerable, next) {
+                    expect(registerable.unregister).to.be.a('function');
+                    next(null, registerable);
+                },
+                function(registerable, next) {
+                    //unregister
+                    registerable.unregister(next);
+                },
+                function(registerable, next) {
+                    expect(registerable.unregisteredAt).to.not.be.null;
+                    next(null, registerable);
+                }
+            ],
+            function(error, registerable) {
+                done(error, registerable);
+            });
     });
 
     it('should be able to auto confirm registration', function(done) {
