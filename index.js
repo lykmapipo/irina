@@ -7,7 +7,6 @@ var libPath = path.join(__dirname, 'lib');
 var morphsPath = path.join(libPath, 'morphs');
 
 //load types
-require(path.join(libPath, 'types', 'email'));
 
 //require morphs
 var Authenticable = require(path.join(morphsPath, 'authenticable'));
