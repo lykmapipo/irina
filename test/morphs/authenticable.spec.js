@@ -44,7 +44,7 @@ describe('Authenticable', function() {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina, {
                 authenticationField: 'username',
-                authenticationFieldType: String,
+                authenticationFieldProperties: {type:String},
                 passwordField: 'hash'
             });
 

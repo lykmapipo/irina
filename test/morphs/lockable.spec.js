@@ -13,14 +13,29 @@ var irina = require(path.join(__dirname, '..', '..', 'index'));
 describe('Lockable', function() {
     before(function(done) {
         var UserSchema = new Schema({});
-        UserSchema.plugin(irina);
-        mongoose.model('LUser', UserSchema);
+        UserSchema.plugin(irina, {
+            registerable: {
+                autoConfirm: true
+            }
+        });
+        var UserLockableSchema = new Schema({});
+
+        UserLockableSchema.plugin(irina, {
+            registerable: {
+                autoConfirm: true
+            },
+            lockable:{
+                enabled:true
+            }
+        });
+        mongoose.model('User', UserSchema);
+        mongoose.model('LUser', UserLockableSchema);
 
         done();
     });
 
     it('should have lockable attributes', function(done) {
-        var User = mongoose.model('LUser');
+        var User = mongoose.model('User');
 
         expect(User.schema.paths.failedAttempts).to.exist;
         expect(User.schema.paths.lockedAt).to.exist;
@@ -33,7 +48,7 @@ describe('Lockable', function() {
     });
 
     it('should be able to generate unlock token', function(done) {
-        var User = mongoose.model('LUser');
+        var User = mongoose.model('User');
 
         var user = new User({
             email: faker.internet.email(),
@@ -56,7 +71,7 @@ describe('Lockable', function() {
     });
 
     it('should be able to send unlock instructions', function(done) {
-        var User = mongoose.model('LUser');
+        var User = mongoose.model('User');
 
         var user = new User({
             email: faker.internet.email(),
@@ -77,9 +92,9 @@ describe('Lockable', function() {
     });
 
     it('should be able to lock account', function(done) {
-        var User = mongoose.model('LUser');
+        var LUser = mongoose.model('LUser');
 
-        var user = new User({
+        var user = new LUser({
             email: faker.internet.email(),
             password: faker.internet.password(),
             failedAttempts: 5
@@ -98,11 +113,33 @@ describe('Lockable', function() {
             });
     });
 
-
-    it('should be able to check if account is locked', function(done) {
-        var User = mongoose.model('LUser');
+    it('should fail to lock account user with lockable.enabled false', function(done) {
+        var User = mongoose.model('User');
 
         var user = new User({
+            email: faker.internet.email(),
+            password: faker.internet.password(),
+            failedAttempts: 5
+        });
+
+        expect(user.lock).to.be.a('function');
+
+        user
+            .lock(function(error, lockable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(lockable.lockedAt).to.be.null;
+                    done();
+                }
+            });
+    });
+
+
+    it('should be able to check if account is locked', function(done) {
+        var LUser = mongoose.model('LUser');
+
+        var user = new LUser({
             email: faker.internet.email(),
             password: faker.internet.password(),
             failedAttempts: 5
@@ -128,45 +165,45 @@ describe('Lockable', function() {
 
 
     it('should be able to unlock account', function(done) {
-        var User = mongoose.model('LUser');
+        var LUser = mongoose.model('LUser');
         async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .register({
-                                email: faker.internet.email(),
-                                password: faker.internet.password()
-                            }, next);
-                    },
-                    function(lockable, next) {
-                        lockable.generateUnlockToken(next);
-                    },
-                    function(lockable, next) {
-                        lockable.sendUnLock(next);
-                    },
-                    function(lockable, next) {
-                        User
-                            .unlock(
-                                lockable.unlockToken,
-                                next
-                            );
-                    }
-                ],
-                function(error, lockable) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        expect(lockable.unlockedAt).to.not.be.null;
-                        expect(lockable.lockedAt).to.be.null;
-                        expect(lockable.failedAttempts).to.equal(0);
-                        done();
-                    }
-                });
+        .waterfall(
+            [
+                function(next) {
+                    LUser
+                        .register({
+                            email: faker.internet.email(),
+                            password: faker.internet.password()
+                        }, next);
+                },
+                function(lockable, next) {
+                    lockable.generateUnlockToken(next);
+                },
+                function(lockable, next) {
+                    lockable.sendUnLock(next);
+                },
+                function(lockable, next) {
+                    LUser
+                        .unlock(
+                            lockable.unlockToken,
+                            next
+                        );
+                }
+            ],
+            function(error, lockable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(lockable.unlockedAt).to.not.be.null;
+                    expect(lockable.lockedAt).to.be.null;
+                    expect(lockable.failedAttempts).to.equal(0);
+                    done();
+                }
+            });
     });
 
     it('should not be able to authenticate locked account', function(done) {
-        var User = mongoose.model('LUser');
+        var LUser = mongoose.model('LUser');
         var credentials = {
             email: faker.internet.email(),
             password: faker.internet.password(),
@@ -174,30 +211,61 @@ describe('Lockable', function() {
         };
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        next(null, new User(credentials));
-                    },
-                    function(lockable, next) {
-                        lockable.lock(next);
-                    },
-                    function(lockable, next) {
-                        lockable.authenticate(credentials.password, next);
-                    }
-                ],
-                function(error /*, lockable*/ ) {
+        .waterfall(
+            [
+                function(next) {
+                    next(null, new LUser(credentials));
+                },
+                function(lockable, next) {
+                    lockable.lock(next);
+                },
+                function(lockable, next) {
+                    lockable.authenticate(credentials.password, next);
+                }
+            ],
+            function(error /*, lockable*/ ) {
 
-                    expect(error).to.exist;
-                    expect(error.message)
-                        .to.equal('Account locked. Check unlock instructions sent to you.');
+                expect(error).to.exist;
+                expect(error.message)
+                    .to.equal('Account locked. Check unlock instructions sent to you.');
 
-                    done();
-                });
+                done();
+            });
+    });
+
+    it('should not be able to authenticate registered locked account', function(done) {
+        var LUser = mongoose.model('LUser');
+        var credentials = {
+            email: faker.internet.email(),
+            password: faker.internet.password(),
+            failedAttempts: 5
+        };
+
+        async
+        .waterfall(
+            [
+                function(next) {
+                    LUser.register(credentials, next);
+                },
+                function(lockable, next) {
+                    lockable.lock(next);
+                },
+                function(lockable, next) {
+                    LUser.authenticate({ email: credentials.email, password: credentials.password }, next);
+                }
+            ],
+            function(error /*, lockable*/ ) {
+
+                expect(error).to.exist;
+                expect(error.message)
+                    .to.equal('Account locked. Check unlock instructions sent to you.');
+
+                done();
+            });
     });
 
     it('should be able to reset failed attempts', function(done) {
-        var User = mongoose.model('LUser');
+        var User = mongoose.model('User');
 
         var user = new User({
             email: faker.internet.email(),
@@ -208,26 +276,26 @@ describe('Lockable', function() {
         expect(user.resetFailedAttempts).to.be.a('function');
 
         async
-            .waterfall([
-                function save(next) {
-                    user.save(function(error) {
-                        if (error) {
-                            next(error);
-                        } else {
-                            next(null, user);
-                        }
-                    });
-                },
-                function resetFailedAttempts(user, next) {
-                    user.resetFailedAttempts(next);
-                }
-            ], function(error, lockable) {
-                if (error) {
-                    done(error);
-                } else {
-                    expect(lockable.failedAttempts).to.be.equal(0);
-                    done();
-                }
-            });
+        .waterfall([
+            function save(next) {
+                user.save(function(error) {
+                    if (error) {
+                        next(error);
+                    } else {
+                        next(null, user);
+                    }
+                });
+            },
+            function resetFailedAttempts(user, next) {
+                user.resetFailedAttempts(next);
+            }
+        ], function(error, lockable) {
+            if (error) {
+                done(error);
+            } else {
+                expect(lockable.failedAttempts).to.be.equal(0);
+                done();
+            }
+        });
     });
 });
