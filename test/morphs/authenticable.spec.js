@@ -25,10 +25,18 @@ describe('Authenticable', function() {
             UserSchema.plugin(irina);
 
             var User = mongoose.model('BUser', UserSchema);
-
             expect(User.schema.paths.email).to.exist;
             expect(User.schema.paths.password).to.exist;
 
+            done();
+        });
+
+        it('should be able to set authenticationField and password as required field', function(done) {
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            var User = mongoose.model('BBUser', UserSchema);
+            expect(User.schema.paths.email.isRequired).to.be.true;
+            expect(User.schema.paths.password.isRequired).to.be.true;
             done();
         });
 
@@ -36,7 +44,7 @@ describe('Authenticable', function() {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina, {
                 authenticationField: 'username',
-                authenticationFieldType: String,
+                authenticationFieldProperties: {type:String},
                 passwordField: 'hash'
             });
 
@@ -92,23 +100,23 @@ describe('Authenticable', function() {
         expect(user.comparePassword).to.be.a('function');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        user.encryptPassword(next);
-                    },
-                    function(authenticable, next) {
-                        authenticable.comparePassword(password, next);
-                    }
-                ],
-                function(error, authenticable) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        expect(authenticable).to.not.be.null;
-                        done();
-                    }
-                });
+        .waterfall(
+            [
+                function(next) {
+                    user.encryptPassword(next);
+                },
+                function(authenticable, next) {
+                    authenticable.comparePassword(password, next);
+                }
+            ],
+            function(error, authenticable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(authenticable).to.not.be.null;
+                    done();
+                }
+            });
     });
 
     it('should be able to change password', function(done) {
@@ -171,29 +179,29 @@ describe('Authenticable', function() {
         var User = mongoose.model('AUser');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .register(credentials, next);
-                    },
-                    function(authenticable, next) {
-                        User.confirm(authenticable.confirmationToken, next);
-                    },
-                    function(authenticable, next) {
-                        User.authenticate(_credentials, next);
-                    }
-                ],
-                function(error, authenticable) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        expect(authenticable).to.not.be.null;
-                        expect(authenticable.email).to.be.equal(_credentials.email);
+        .waterfall(
+            [
+                function(next) {
+                    User
+                        .register(credentials, next);
+                },
+                function(authenticable, next) {
+                    User.confirm(authenticable.confirmationToken, next);
+                },
+                function(authenticable, next) {
+                    User.authenticate(_credentials, next);
+                }
+            ],
+            function(error, authenticable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(authenticable).to.not.be.null;
+                    expect(authenticable.email).to.be.equal(_credentials.email);
 
-                        done();
-                    }
-                });
+                    done();
+                }
+            });
     });
 
 
@@ -210,23 +218,23 @@ describe('Authenticable', function() {
         var User = mongoose.model('AUser');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .register(credentials, next);
-                    },
-                    function(authenticable, next) {
-                        User.confirm(authenticable.confirmationToken, next);
-                    },
-                    function(authenticable, next) {
-                        User.authenticate(_credentials, next);
-                    }
-                ],
-                function(error /*, authenticable*/ ) {
-                    expect(error).to.exist;
-                    expect(error.message).to.equal('Incorrect email or password');
-                    done();
-                });
+        .waterfall(
+            [
+                function(next) {
+                    User
+                        .register(credentials, next);
+                },
+                function(authenticable, next) {
+                    User.confirm(authenticable.confirmationToken, next);
+                },
+                function(authenticable, next) {
+                    User.authenticate(_credentials, next);
+                }
+            ],
+            function(error /*, authenticable*/ ) {
+                expect(error).to.exist;
+                expect(error.message).to.equal('Incorrect email or password');
+                done();
+            });
     });
 });

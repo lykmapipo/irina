@@ -7,7 +7,6 @@ var libPath = path.join(__dirname, 'lib');
 var morphsPath = path.join(libPath, 'morphs');
 
 //load types
-require(path.join(libPath, 'types', 'email'));
 
 //require morphs
 var Authenticable = require(path.join(morphsPath, 'authenticable'));
@@ -26,13 +25,14 @@ var Trackable = require(path.join(morphsPath, 'trackable'));
  */
 module.exports = exports = function Irina(schema, options) {
     //prepare common options
-    options = _.extend({
+    options = _.merge({
         confirmable: {
             tokenLifeSpan: 3
         },
         lockable: {
             tokenLifeSpan: 3,
-            maximumAllowedFailedAttempts: 3
+            maximumAllowedFailedAttempts: 3,
+            enabled:false
         },
         recoverable: {
             tokenLifeSpan: 3
