@@ -92,23 +92,23 @@ describe('Authenticable', function() {
         expect(user.comparePassword).to.be.a('function');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        user.encryptPassword(next);
-                    },
-                    function(authenticable, next) {
-                        authenticable.comparePassword(password, next);
-                    }
-                ],
-                function(error, authenticable) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        expect(authenticable).to.not.be.null;
-                        done();
-                    }
-                });
+        .waterfall(
+            [
+                function(next) {
+                    user.encryptPassword(next);
+                },
+                function(authenticable, next) {
+                    authenticable.comparePassword(password, next);
+                }
+            ],
+            function(error, authenticable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(authenticable).to.not.be.null;
+                    done();
+                }
+            });
     });
 
     it('should be able to change password', function(done) {
@@ -171,29 +171,29 @@ describe('Authenticable', function() {
         var User = mongoose.model('AUser');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .register(credentials, next);
-                    },
-                    function(authenticable, next) {
-                        User.confirm(authenticable.confirmationToken, next);
-                    },
-                    function(authenticable, next) {
-                        User.authenticate(_credentials, next);
-                    }
-                ],
-                function(error, authenticable) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        expect(authenticable).to.not.be.null;
-                        expect(authenticable.email).to.be.equal(_credentials.email);
+        .waterfall(
+            [
+                function(next) {
+                    User
+                        .register(credentials, next);
+                },
+                function(authenticable, next) {
+                    User.confirm(authenticable.confirmationToken, next);
+                },
+                function(authenticable, next) {
+                    User.authenticate(_credentials, next);
+                }
+            ],
+            function(error, authenticable) {
+                if (error) {
+                    done(error);
+                } else {
+                    expect(authenticable).to.not.be.null;
+                    expect(authenticable.email).to.be.equal(_credentials.email);
 
-                        done();
-                    }
-                });
+                    done();
+                }
+            });
     });
 
 
@@ -210,23 +210,23 @@ describe('Authenticable', function() {
         var User = mongoose.model('AUser');
 
         async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .register(credentials, next);
-                    },
-                    function(authenticable, next) {
-                        User.confirm(authenticable.confirmationToken, next);
-                    },
-                    function(authenticable, next) {
-                        User.authenticate(_credentials, next);
-                    }
-                ],
-                function(error /*, authenticable*/ ) {
-                    expect(error).to.exist;
-                    expect(error.message).to.equal('Incorrect email or password');
-                    done();
-                });
+        .waterfall(
+            [
+                function(next) {
+                    User
+                        .register(credentials, next);
+                },
+                function(authenticable, next) {
+                    User.confirm(authenticable.confirmationToken, next);
+                },
+                function(authenticable, next) {
+                    User.authenticate(_credentials, next);
+                }
+            ],
+            function(error /*, authenticable*/ ) {
+                expect(error).to.exist;
+                expect(error.message).to.equal('Incorrect email or password');
+                done();
+            });
     });
 });
