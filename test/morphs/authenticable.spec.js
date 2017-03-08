@@ -2,7 +2,6 @@
 
 //dependencies
 var faker = require('faker');
-var async = require('async');
 var _ = require('lodash');
 var path = require('path');
 var mongoose = require('mongoose');
@@ -10,231 +9,287 @@ var expect = require('chai').expect;
 var Schema = mongoose.Schema;
 var irina = require(path.join(__dirname, '..', '..', 'index'));
 
-describe('Authenticable', function() {
-    before(function(done) {
-        var UserSchema = new Schema({});
-        UserSchema.plugin(irina);
-        mongoose.model('AUser', UserSchema);
+describe('Authenticable', function () {
 
-        done();
-    });
-
-    describe('Authenticable Fields', function() {
-        it('should be able to set defaults authentication fields', function(done) {
+    describe('', function () {
+        let User;
+        before(function () {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina);
+            User = mongoose.model('BUser', UserSchema);
+        });
 
-            var User = mongoose.model('BUser', UserSchema);
+        it('should be able to set defaults authentication fields', function () {
             expect(User.schema.paths.email).to.exist;
             expect(User.schema.paths.password).to.exist;
-
-            done();
         });
 
-        it('should be able to set authenticationField and password as required field', function(done) {
-            var UserSchema = new Schema({});
-            UserSchema.plugin(irina);
-            var User = mongoose.model('BBUser', UserSchema);
+        it('should be able to set authenticationField and password as required field', function () {
             expect(User.schema.paths.email.isRequired).to.be.true;
             expect(User.schema.paths.password.isRequired).to.be.true;
-            done();
         });
+    });
 
-        it('should be able to set custom authentication fields', function(done) {
+
+    describe('', function () {
+        let User;
+        before(function () {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina, {
                 authenticationField: 'username',
-                authenticationFieldProperties: {type:String},
+                authenticationFieldProperties: { type: String },
                 passwordField: 'hash'
             });
+            User = mongoose.model('CUser', UserSchema);
+        });
 
-            var User = mongoose.model('CUser', UserSchema);
-
+        it('should be able to set custom authentication fields', function () {
             expect(User.schema.paths.username).to.exist;
             expect(User.schema.paths.username.instance).to.be.equal('String');
-
             expect(User.schema.paths.hash).to.exist;
-
-            done();
         });
     });
 
-    it('should be able to encrypt password', function(done) {
-        var User = mongoose.model('AUser');
 
-        var password = faker.internet.password();
-        var email = faker.internet.email();
-
-
-        var user = new User({
-            email: email,
-            password: password
+    describe('', function () {
+        before(function (done) {
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            mongoose.model('AUser', UserSchema);
+            done();
         });
 
-        expect(user.encryptPassword).to.be.a('function');
+        it('should be able to encrypt password callback based', function (done) {
+            var User = mongoose.model('AUser');
 
-        user
-            .encryptPassword(function(error, authenticable) {
-                if (error) {
-                    done(error);
-                } else {
+            var password = faker.internet.password();
+            var email = faker.internet.email();
+
+
+            var user = new User({
+                email: email,
+                password: password
+            });
+
+            user
+                .encryptPassword(function (error, authenticable) {
+                    if (error) {
+                        done(error);
+                    } else {
+                        expect(authenticable.email).to.be.equal(email.toLowerCase());
+                        expect(authenticable.password).to.not.equal(password);
+                        done();
+                    }
+                });
+        });
+
+        it('should be able to encrypt password promise based', function (done) {
+            var User = mongoose.model('AUser');
+
+            var password = faker.internet.password();
+            var email = faker.internet.email();
+
+
+            var user = new User({
+                email: email,
+                password: password
+            });
+
+            user
+                .encryptPassword()
+                .then(authenticable => {
                     expect(authenticable.email).to.be.equal(email.toLowerCase());
                     expect(authenticable.password).to.not.equal(password);
                     done();
-                }
-            });
+                });
+        });
     });
 
-    it('should be able to compare password with hash', function(done) {
-        var password = faker.internet.password();
-        var email = faker.internet.email();
 
-        var User = mongoose.model('AUser');
-
-        var user = new User({
-            email: email,
-            password: password
+    describe('', function () {
+        let User;
+        before(function (done) {
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model('DUser', UserSchema);
+            done();
         });
 
+        it('should be able to compare password with hash callback based', function (done) {
+            var password = faker.internet.password();
+            var email = faker.internet.email();
 
-        expect(user.comparePassword).to.be.a('function');
+            var user = new User({
+                email: email,
+                password: password
+            });
 
-        async
-        .waterfall(
-            [
-                function(next) {
-                    user.encryptPassword(next);
-                },
-                function(authenticable, next) {
-                    authenticable.comparePassword(password, next);
-                }
-            ],
-            function(error, authenticable) {
-                if (error) {
-                    done(error);
-                } else {
+            user
+                .encryptPassword()
+                .then(authenticable => {
+                    return authenticable
+                        .comparePassword(password, (error, authenticable) => {
+                            expect(authenticable).to.not.be.null;
+                            done();
+                        });
+                });
+        });
+
+        it('should be able to compare password with hash promise based', function (done) {
+            var password = faker.internet.password();
+            var email = faker.internet.email();
+
+            var user = new User({
+                email: email,
+                password: password
+            });
+
+            user
+                .encryptPassword()
+                .then(authenticable => {
+                    return authenticable.comparePassword(password);
+                })
+                .then(authenticable => {
                     expect(authenticable).to.not.be.null;
                     done();
-                }
-            });
+                });
+        });
     });
 
-    it('should be able to change password', function(done) {
-        var password = faker.internet.password();
-        var email = faker.internet.email();
 
-        var User = mongoose.model('AUser');
 
-        var user = new User({
-            email: email,
-            password: password
+    describe('', function () {
+        before(function (done) {
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            mongoose.model('EUser', UserSchema);
+            done();
         });
 
-        var previousPassword = user.password;
+        it('should be able to change password callback based', function (done) {
+            var password = faker.internet.password();
+            var email = faker.internet.email();
 
-        expect(user.changePassword).to.be.a('function');
+            var User = mongoose.model('EUser');
 
-        user
-            .changePassword(faker.internet.password(), function(error, authenticable) {
-                if (error) {
-                    done(error);
-                } else {
+            var user = new User({
+                email: email,
+                password: password
+            });
+
+            var previousPassword = user.password;
+
+            expect(user.changePassword).to.be.a('function');
+
+            user
+                .changePassword(faker.internet.password(), function (error, authenticable) {
+                    if (error) {
+                        done(error);
+                    } else {
+                        expect(authenticable.email).to.be.equal(user.email);
+                        expect(authenticable.password).to.not.be.null;
+                        expect(authenticable.password).to.not.equal(previousPassword);
+
+                        done();
+                    }
+                });
+        });
+
+        it('should be able to change password promise based', function (done) {
+            var password = faker.internet.password();
+            var email = faker.internet.email();
+
+            var User = mongoose.model('EUser');
+
+            var user = new User({
+                email: email,
+                password: password
+            });
+
+            var previousPassword = user.password;
+
+            user
+                .changePassword(faker.internet.password())
+                .then(authenticable => {
                     expect(authenticable.email).to.be.equal(user.email);
                     expect(authenticable.password).to.not.be.null;
                     expect(authenticable.password).to.not.equal(previousPassword);
 
                     done();
-                }
-            });
+                });
+        });
     });
 
-    it('should have static authenticate method', function(done) {
-        var User = mongoose.model('AUser');
 
-        expect(User.authenticate).to.exist;
-        expect(User.authenticate).to.be.a('function');
+    describe('', function () {
+        let User, user, _credentials;
+        before(function (done) {
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model('FUser', UserSchema);
+            done();
+        });
 
-        done();
-    });
 
-    it('should have instance authenticate method', function(done) {
-        var User = mongoose.model('AUser');
-        var user = new User();
+        before(function (done) {
+            var credentials = {
+                email: faker.internet.email(),
+                password: faker.internet.password()
+            };
 
-        expect(user.authenticate).to.exist;
-        expect(user.authenticate).to.be.a('function');
+            _credentials = _.clone(credentials);
+            _credentials.email = credentials.email.toLowerCase();
+            User
+                .register(credentials)
+                .then(authenticable => {
+                    user = authenticable;
+                    done();
+                });
+        });
 
-        done();
-    });
 
-    it('should be able to authenticate credentials', function(done) {
-        var credentials = {
-            email: faker.internet.email(),
-            password: faker.internet.password()
-        };
+        before(function (done) {
+            User
+                .confirm(user.confirmationToken)
+                .then(authenticable => {
+                    user = authenticable;
+                    done();
+                });
+        });
 
-        var _credentials = _.clone(credentials);
-        _credentials.email = credentials.email.toLowerCase();
-
-        var User = mongoose.model('AUser');
-
-        async
-        .waterfall(
-            [
-                function(next) {
-                    User
-                        .register(credentials, next);
-                },
-                function(authenticable, next) {
-                    User.confirm(authenticable.confirmationToken, next);
-                },
-                function(authenticable, next) {
-                    User.authenticate(_credentials, next);
-                }
-            ],
-            function(error, authenticable) {
-                if (error) {
-                    done(error);
-                } else {
+        it('should be able to authenticate credentials callback based', function (done) {
+            User
+                .authenticate(_credentials, (error, authenticable) => {
                     expect(authenticable).to.not.be.null;
                     expect(authenticable.email).to.be.equal(_credentials.email);
-
                     done();
-                }
-            });
-    });
+                });
+        });
+
+        it('should be able to authenticate credentials promise based', function (done) {
+            User
+                .authenticate(_credentials)
+                .then(authenticable => {
+                    expect(authenticable).to.not.be.null;
+                    expect(authenticable.email).to.be.equal(_credentials.email);
+                    done();
+                });
+        });
 
 
-    it('should throw error when authenticate credentials with invalid password', function(done) {
-        var credentials = {
-            email: faker.internet.email(),
-            password: faker.internet.password()
-        };
+        it('should throw error when authenticate credentials with invalid password', function (done) {
+            var credentials = {
+                email: faker.internet.email().toLowerCase(),
+                password: faker.internet.password()
+            };
 
-        var _credentials = _.clone(credentials);
-        _credentials.password = faker.internet.password();
-        _credentials.email = credentials.email.toLowerCase();
-
-        var User = mongoose.model('AUser');
-
-        async
-        .waterfall(
-            [
-                function(next) {
-                    User
-                        .register(credentials, next);
-                },
-                function(authenticable, next) {
-                    User.confirm(authenticable.confirmationToken, next);
-                },
-                function(authenticable, next) {
-                    User.authenticate(_credentials, next);
-                }
-            ],
-            function(error /*, authenticable*/ ) {
-                expect(error).to.exist;
-                expect(error.message).to.equal('Incorrect email or password');
-                done();
-            });
+            User
+                .authenticate(credentials)
+                .catch(error => {
+                    expect(error).to.exist;
+                    expect(error.message).to.equal('Incorrect email or password');
+                    done();
+                });
+        });
     });
 });
