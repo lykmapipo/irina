@@ -2,109 +2,128 @@
 
 //dependencies
 var faker = require('faker');
-var async = require('async');
 var path = require('path');
 var mongoose = require('mongoose');
 var expect = require('chai').expect;
 var Schema = mongoose.Schema;
 var irina = require(path.join(__dirname, '..', '..', 'index'));
 
-var previousIp = faker.internet.ip();
-var currentIp = faker.internet.ip();
-var email = faker.internet.email();
+describe('Trackable', function () {
 
-describe('Trackable', function() {
-    before(function(done) {
-        var UserSchema = new Schema({});
-        UserSchema.plugin(irina);
-        mongoose.model('TUser', UserSchema);
+    describe('', function () {
+        let User;
+        before(function (done) {
+            const UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
 
-        done();
-    });
-
-    it('should have trackable attributes', function(done) {
-        var User = mongoose.model('TUser');
-
-        expect(User.schema.paths.signInCount).to.exist;
-        expect(User.schema.paths.currentSignInAt).to.exist;
-        expect(User.schema.paths.currentSignInIpAddress).to.exist;
-        expect(User.schema.paths.lastSignInAt).to.exist;
-        expect(User.schema.paths.lastSignInIpAddress).to.exist;
-        done();
-    });
-
-    it('should be able to set trackable details', function(done) {
-        var User = mongoose.model('TUser');
-
-        var trackable = new User({
-            email: email,
-            password: faker.internet.password()
+            done();
         });
 
-        expect(trackable.track).to.exist;
-        expect(trackable).to.respondTo('track');
+        it('should have trackable attributes', function (done) {
 
-        trackable
-            .track(previousIp, function(error, trackable) {
-                if (error) {
-                    done(error);
-                } else {
+            expect(User.schema.paths.signInCount).to.exist;
+            expect(User.schema.paths.currentSignInAt).to.exist;
+            expect(User.schema.paths.currentSignInIpAddress).to.exist;
+            expect(User.schema.paths.lastSignInAt).to.exist;
+            expect(User.schema.paths.lastSignInIpAddress).to.exist;
+            done();
+        });
+    });
+
+
+
+    describe('', function () {
+        let User;
+
+        const previousIp = faker.internet.ip();
+
+        before(function (done) {
+            const UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
+
+            done();
+        });
+
+        it('should be able to set trackable details callback style', function (done) {
+            const trackable = new User({
+                email: faker.internet.email(),
+                password: faker.internet.password()
+            });
+
+            expect(trackable.track).to.exist;
+            expect(trackable).to.respondTo('track');
+
+            trackable
+                .track(previousIp, function (error, trackable) {
+                    if (error) {
+                        done(error);
+                    } else {
+                        expect(trackable.currentSignInAt).to.not.be.null;
+                        expect(trackable.currentSignInIpAddress).to.not.be.null;
+                        expect(trackable.currentSignInIpAddress).to.equal(previousIp);
+                        done();
+                    }
+                });
+        });
+
+        it('should be able to set trackable details promise style', function (done) {
+            const trackable = new User({
+                email: faker.internet.email(),
+                password: faker.internet.password()
+            });
+
+            expect(trackable.track).to.exist;
+            expect(trackable).to.respondTo('track');
+
+            trackable
+                .track(previousIp)
+                .then(trackable => {
                     expect(trackable.currentSignInAt).to.not.be.null;
                     expect(trackable.currentSignInIpAddress).to.not.be.null;
                     expect(trackable.currentSignInIpAddress).to.equal(previousIp);
                     done();
-                }
-            });
+                });
+        });
     });
 
-    it('should be able to update tracking details', function(done) {
-        var User = mongoose.model('TUser');
-        var lastSignInAt;
 
-        async
-            .waterfall(
-                [
-                    function(next) {
-                        User
-                            .findOne({
-                                email: email.toLowerCase()
-                            })
-                            .exec(next);
-                    },
-                    function(trackable, next) {
-                        lastSignInAt = trackable.currentSignInAt;
 
-                        expect(trackable.signInCount).to.equal(1);
-                        expect(trackable.currentSignInAt).to.not.be.null;
-                        expect(trackable.currentSignInIpAddress).to.not.be.null;
-                        expect(trackable.currentSignInIpAddress).to.equal(previousIp);
+    describe('', function () {
+        let User, trackable;
+        const previousIp = faker.internet.ip();
+        const currentIp = faker.internet.ip();
 
-                        next(null, trackable);
-                    },
-                    function(trackable, next) {
-                        trackable.track(currentIp, next);
-                    }
-                ],
-                function(error, trackable) {
-                    if (error) {
-                        done(error);
-                    } else {
-                        expect(trackable.signInCount).to.equal(2);
+        before(function (done) {
+            const UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
 
-                        expect(trackable.lastSignInAt).to.not.be.null;
-                        expect(trackable.lastSignInAt)
-                            .to.eql(lastSignInAt);
+            done();
+        });
 
-                        expect(trackable.lastSignInIpAddress).to.not.be.null;
-                        expect(trackable.lastSignInIpAddress).to.equal(previousIp);
-
-                        expect(trackable.currentSignInAt).to.not.be.null;
-                        expect(trackable.currentSignInIpAddress).to.not.be.null;
-                        expect(trackable.currentSignInIpAddress).to.equal(currentIp);
-
-                        done();
-                    }
+        before(function (done) {
+            const user = new User({
+                email: faker.internet.email(),
+                password: faker.internet.password()
+            });
+            user
+                .track(previousIp)
+                .then(_user_ => {
+                    trackable = _user_;
+                    done();
                 });
+        });
+
+        it('should be able to update tracking details', function (done) {
+            trackable.track(currentIp, function (error, trackable) {
+                expect(trackable.lastSignInIpAddress).not.to.equal(trackable.currentSignInIpAddress);
+                expect(trackable.lastSignInIpAddress).to.equal(previousIp);
+                expect(trackable.currentSignInIpAddress).to.equal(currentIp);
+                done();
+            });
+        });
     });
 
 });
