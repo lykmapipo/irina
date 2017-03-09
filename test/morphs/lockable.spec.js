@@ -21,11 +21,10 @@ describe('Lockable', function () {
                 }
             });
 
-            User = mongoose.model('User', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         it('should have lockable attributes', function (done) {
-            var User = mongoose.model('User');
 
             expect(User.schema.paths.failedAttempts).to.exist;
             expect(User.schema.paths.lockedAt).to.exist;
@@ -49,7 +48,7 @@ describe('Lockable', function () {
                 }
             });
 
-            User = mongoose.model('UserA', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         it('should be able to generate unlock token callback style', function (done) {
@@ -99,7 +98,7 @@ describe('Lockable', function () {
                 }
             });
 
-            User = mongoose.model('UserB', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         it('should be able to send unlock instructions callback style', function (done) {
@@ -149,7 +148,7 @@ describe('Lockable', function () {
                 }
             });
 
-            LUser = mongoose.model('LUser', UserLockableSchema);
+            LUser = mongoose.model(`User+${faker.random.number()}`, UserLockableSchema);
 
             var UserSchema = new Schema({});
             UserSchema.plugin(irina, {
@@ -158,7 +157,7 @@ describe('Lockable', function () {
                 }
             });
 
-            User = mongoose.model('UserC', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
 
         });
 
@@ -245,7 +244,7 @@ describe('Lockable', function () {
                 }
             });
 
-            LUser = mongoose.model('LUserA', UserLockableSchema);
+            LUser = mongoose.model(`User+${faker.random.number()}`, UserLockableSchema);
 
         });
 
@@ -300,7 +299,7 @@ describe('Lockable', function () {
                 }
             });
 
-            LUser = mongoose.model('LUserB', UserLockableSchema);
+            LUser = mongoose.model(`User+${faker.random.number()}`, UserLockableSchema);
 
         });
 
@@ -352,7 +351,7 @@ describe('Lockable', function () {
                 }
             });
 
-            LUser = mongoose.model('LUserC', UserLockableSchema);
+            LUser = mongoose.model(`User+${faker.random.number()}`, UserLockableSchema);
 
         });
 
@@ -398,7 +397,7 @@ describe('Lockable', function () {
                 }
             });
 
-            LUser = mongoose.model('LUserD', UserLockableSchema);
+            LUser = mongoose.model(`User+${faker.random.number()}`, UserLockableSchema);
 
         });
 
@@ -446,7 +445,7 @@ describe('Lockable', function () {
                 }
             });
 
-            User = mongoose.model('UserD', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         before(function (done) {
@@ -482,7 +481,7 @@ describe('Lockable', function () {
                 }
             });
 
-            User = mongoose.model('UserE', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         before(function (done) {

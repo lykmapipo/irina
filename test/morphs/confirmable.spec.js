@@ -10,10 +10,11 @@ var irina = require(path.join(__dirname, '..', '..', 'index'));
 
 
 describe('confirmable', function () {
+    let User;
     before(function (done) {
         var UserSchema = new Schema({});
         UserSchema.plugin(irina);
-        mongoose.model('ConUser', UserSchema);
+        User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
 
         done();
     });
@@ -21,7 +22,6 @@ describe('confirmable', function () {
 
     describe('', function () {
         it('should have confirmable attributes', function (done) {
-            var User = mongoose.model('ConUser');
 
             expect(User.schema.paths.confirmationToken).to.exist;
             expect(User.schema.paths.confirmationTokenExpiryAt).to.exist;
@@ -38,7 +38,9 @@ describe('confirmable', function () {
 
 
         before(function () {
-            User = mongoose.model('ConUser');
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
             user = new User({
                 email: faker.internet.email(),
                 password: faker.internet.password()
@@ -75,7 +77,9 @@ describe('confirmable', function () {
         let User, user;
 
         before(function () {
-            User = mongoose.model('ConUser');
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
             user = new User({
                 email: faker.internet.email(),
                 password: faker.internet.password()
@@ -109,9 +113,13 @@ describe('confirmable', function () {
     describe('', function () {
         let User, user;
 
+        before(function () {
+            var UserSchema = new Schema({});
+            UserSchema.plugin(irina);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
+        });
 
         before(function (done) {
-            User = mongoose.model('ConUser');
             User
                 .register({
                     email: faker.internet.email(),
@@ -124,7 +132,6 @@ describe('confirmable', function () {
         });
 
         it('should be able to confirm registration callback based', function (done) {
-            var User = mongoose.model('ConUser');
             User
                 .confirm(user.confirmationToken, function (error, confirmable) {
                     expect(confirmable.confirmedAt).to.not.be.null;
@@ -134,7 +141,6 @@ describe('confirmable', function () {
         });
 
         it('should be able to confirm registration promise based', function (done) {
-            var User = mongoose.model('ConUser');
             User
                 .confirm(user.confirmationToken)
                 .then(confirmable => {

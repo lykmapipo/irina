@@ -16,7 +16,7 @@ describe('Authenticable', function () {
         before(function () {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina);
-            User = mongoose.model('BUser', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         it('should be able to set defaults authentication fields', function () {
@@ -40,7 +40,7 @@ describe('Authenticable', function () {
                 authenticationFieldProperties: { type: String },
                 passwordField: 'hash'
             });
-            User = mongoose.model('CUser', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
         });
 
         it('should be able to set custom authentication fields', function () {
@@ -52,15 +52,15 @@ describe('Authenticable', function () {
 
 
     describe('', function () {
+        let User;
         before(function (done) {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina);
-            mongoose.model('AUser', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
             done();
         });
 
         it('should be able to encrypt password callback based', function (done) {
-            var User = mongoose.model('AUser');
 
             var password = faker.internet.password();
             var email = faker.internet.email();
@@ -84,8 +84,6 @@ describe('Authenticable', function () {
         });
 
         it('should be able to encrypt password promise based', function (done) {
-            var User = mongoose.model('AUser');
-
             var password = faker.internet.password();
             var email = faker.internet.email();
 
@@ -111,7 +109,7 @@ describe('Authenticable', function () {
         before(function (done) {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina);
-            User = mongoose.model('DUser', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
             done();
         });
 
@@ -159,10 +157,11 @@ describe('Authenticable', function () {
 
 
     describe('', function () {
+        let User;
         before(function (done) {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina);
-            mongoose.model('EUser', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
             done();
         });
 
@@ -170,16 +169,12 @@ describe('Authenticable', function () {
             var password = faker.internet.password();
             var email = faker.internet.email();
 
-            var User = mongoose.model('EUser');
-
             var user = new User({
                 email: email,
                 password: password
             });
 
             var previousPassword = user.password;
-
-            expect(user.changePassword).to.be.a('function');
 
             user
                 .changePassword(faker.internet.password(), function (error, authenticable) {
@@ -198,8 +193,6 @@ describe('Authenticable', function () {
         it('should be able to change password promise based', function (done) {
             var password = faker.internet.password();
             var email = faker.internet.email();
-
-            var User = mongoose.model('EUser');
 
             var user = new User({
                 email: email,
@@ -226,7 +219,7 @@ describe('Authenticable', function () {
         before(function (done) {
             var UserSchema = new Schema({});
             UserSchema.plugin(irina);
-            User = mongoose.model('FUser', UserSchema);
+            User = mongoose.model(`User+${faker.random.number()}`, UserSchema);
             done();
         });
 
