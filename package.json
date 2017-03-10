@@ -1,6 +1,6 @@
 {
   "name": "irina",
-  "version": "0.2.7",
+  "version": "0.4.1",
   "description": "Simple and flexible authentication workflows for mongoose",
   "keywords": [
     "mongoose",
