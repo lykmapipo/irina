@@ -1,74 +1,71 @@
 {
-    "name": "irina",
-    "version": "0.2.8",
-    "description": "Simple and flexible authentication workflows for mongoose",
-    "keywords": [
-        "mongoose",
-        "mongoose-plugin",
-        "authenticable",
-        "express",
-        "connect",
-        "confirmable",
-        "confirm",
-        "lockable",
-        "lock",
-        "recoverable",
-        "recover",
-        "registerable",
-        "register",
-        "registration",
-        "trackable",
-        "track",
-        "authentication",
-        "account",
-        "user",
-        "authenticate",
-        "login",
-        "signin",
-        "signup"
-    ],
-    "main": "index.js",
-    "scripts": {
-        "test": "grunt test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/lykmapipo/irina.git"
-    },
-    "author": {
-        "name": "lykmapipo",
-        "email": "lallyelias87@gmail.com",
-        "url": "https://github.com/lykmapipo"
-    },
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/lykmapipo/irina/issues"
-    },
-    "homepage": "https://github.com/lykmapipo/irina",
-    "contributors": [
-        {
-            "name": "lykmapipo",
-            "github": "https://github.com/lykmapipo"
-        }
-    ],
-    "devDependencies": {
-        "chai": "^4.1.2",
-        "faker": "^4.1.0",
-        "grunt": "^1.0.1",
-        "grunt-contrib-jshint": "^1.1.0",
-        "grunt-contrib-watch": "^1.0.0",
-        "grunt-mocha-test": "^0.13.2",
-        "jshint-stylish": "^2.2.1",
-        "mocha": "^3.5.0",
-        "mongoose": "^4.11.10"
-    },
-    "dependencies": {
-        "async": "^2.5.0",
-        "bcryptjs": "^2.4.3",
-        "lodash": "^4.17.4",
-        "moment": "^2.18.1",
-        "mongoose-autopopulate": "^0.6.0",
-        "mongoose-hidden": "^1.4.2",
-        "mongoose-valid8": "^0.1.1"
+  "name": "irina",
+  "version": "0.3.0",
+  "description": "Simple and flexible authentication workflows for mongoose",
+  "keywords": [
+    "mongoose",
+    "mongoose-plugin",
+    "authenticable",
+    "express",
+    "connect",
+    "confirmable",
+    "confirm",
+    "lockable",
+    "lock",
+    "recoverable",
+    "recover",
+    "registerable",
+    "register",
+    "registration",
+    "trackable",
+    "track",
+    "authentication",
+    "account",
+    "user",
+    "authenticate",
+    "login",
+    "signin",
+    "signup"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lykmapipo/irina.git"
+  },
+  "author": {
+    "name": "lykmapipo",
+    "email": "lallyelias87@gmail.com",
+    "url": "https://github.com/lykmapipo"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lykmapipo/irina/issues"
+  },
+  "homepage": "https://github.com/lykmapipo/irina",
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "github": "https://github.com/lykmapipo"
     }
+  ],
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "faker": "^4.1.0",
+    "grunt": "^1.0.2",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.3",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^5.0.5"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "bcryptjs": "^2.4.3",
+    "lodash": "^4.17.5",
+    "moment": "^2.21.0",
+    "mongoose": "^5.0.11"
+  }
 }
