@@ -1,8 +1,9 @@
 {
   "name": "irina",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Simple and flexible authentication workflows for mongoose",
   "keywords": [
+    "lykmapipo",
     "mongoose",
     "mongoose-plugin",
     "authenticable",
@@ -60,7 +61,7 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.2.0",
-    "mongoose": "^5.1.6"
+    "mongoose": "^5.1.7"
   },
   "dependencies": {
     "async": "^2.6.1",

@@ -42,7 +42,7 @@ Simple and flexible authentication workflows for [mongoose](https://github.com/A
 
 ## Installation
 ```sh
-$ npm install --save irina
+$ npm install --save mongoose irina
 ```
 
 ## Usage
