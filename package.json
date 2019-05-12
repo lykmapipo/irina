@@ -46,25 +46,27 @@
     "url": "https://github.com/lykmapipo/irina/issues"
   },
   "homepage": "https://github.com/lykmapipo/irina",
-  "contributors": [{
-    "name": "lykmapipo",
-    "github": "https://github.com/lykmapipo"
-  }],
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "github": "https://github.com/lykmapipo"
+    }
+  ],
   "devDependencies": {
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "grunt": "^1.0.3",
-    "grunt-contrib-jshint": "^1.1.0",
+    "grunt": "^1.0.4",
+    "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^5.2.0",
-    "mongoose": "^5.2.14"
+    "mocha": "^6.1.4",
+    "mongoose": "^5.5.7"
   },
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.2",
     "bcryptjs": "^2.4.3",
     "lodash": "^4.17.11",
-    "moment": "^2.22.2"
+    "moment": "^2.24.0"
   }
 }
