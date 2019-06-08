@@ -10,38 +10,60 @@ var expect = require('chai').expect;
 var Schema = mongoose.Schema;
 var irina = require(path.join(__dirname, '..', '..', 'index'));
 
-describe('Authenticable', function() {
-  before(function(done) {
+describe('Authenticable', function () {
+  before(function (done) {
     var UserSchema = new Schema({});
     UserSchema.plugin(irina);
     mongoose.model('AUser', UserSchema);
     done();
   });
 
-  describe('Authenticable Fields', function() {
-    it('should be able to set defaults authentication fields', function(
-      done) {
-      var UserSchema = new Schema({});
-      UserSchema.plugin(irina);
+  describe('Authenticable Fields', function () {
+    it('should be able to set defaults authentication fields',
+      function (done) {
+        var UserSchema = new Schema({});
+        UserSchema.plugin(irina);
 
-      var User = mongoose.model('BUser', UserSchema);
+        var User = mongoose.model('BUser', UserSchema);
 
-      expect(User.schema.paths.email).to.exist;
-      expect(User.schema.paths.password).to.exist;
+        expect(User.schema.paths.email).to.exist;
+        expect(User.schema.paths.password).to.exist;
 
-      done();
-    });
+        done();
+      });
 
-    it('should be able to set custom authentication fields', function(
-      done) {
-      var UserSchema = new Schema({});
+    it('should be able to set custom authentication fields',
+      function (done) {
+        var UserSchema = new Schema({});
+        UserSchema.plugin(irina, {
+          authenticationField: 'username',
+          authenticationFieldType: String,
+          passwordField: 'hash'
+        });
+
+        var User = mongoose.model('CUser', UserSchema);
+
+        expect(User.schema.paths.username).to.exist;
+        expect(User.schema.paths.username.instance).to.be.equal(
+          'String');
+
+        expect(User.schema.paths.hash).to.exist;
+
+        done();
+      });
+
+    it('should use schema authentication fields', function (done) {
+      var UserSchema = new Schema({
+        username: { type: String },
+        hash: { type: String }
+      });
       UserSchema.plugin(irina, {
         authenticationField: 'username',
         authenticationFieldType: String,
         passwordField: 'hash'
       });
 
-      var User = mongoose.model('CUser', UserSchema);
+      var User = mongoose.model('DUser', UserSchema);
 
       expect(User.schema.paths.username).to.exist;
       expect(User.schema.paths.username.instance).to.be.equal(
@@ -53,7 +75,7 @@ describe('Authenticable', function() {
     });
   });
 
-  it('should be able to encrypt password', function(done) {
+  it('should be able to encrypt password', function (done) {
     var User = mongoose.model('AUser');
 
     var password = faker.internet.password();
@@ -68,7 +90,7 @@ describe('Authenticable', function() {
     expect(user.encryptPassword).to.be.a('function');
 
     user
-      .encryptPassword(function(error, authenticable) {
+      .encryptPassword(function (error, authenticable) {
         if (error) {
           done(error);
         } else {
@@ -79,7 +101,7 @@ describe('Authenticable', function() {
       });
   });
 
-  it('should be able to compare password with hash', function(done) {
+  it('should be able to compare password with hash', function (done) {
     var password = faker.internet.password();
     var email = faker.internet.email();
 
@@ -93,17 +115,16 @@ describe('Authenticable', function() {
 
     expect(user.comparePassword).to.be.a('function');
 
-    async
-    .waterfall(
+    async.waterfall(
       [
-        function(next) {
+        function (next) {
           user.encryptPassword(next);
         },
-        function(authenticable, next) {
+        function (authenticable, next) {
           authenticable.comparePassword(password, next);
         }
       ],
-      function(error, authenticable) {
+      function (error, authenticable) {
         if (error) {
           done(error);
         } else {
@@ -113,7 +134,7 @@ describe('Authenticable', function() {
       });
   });
 
-  it('should be able to change password', function(done) {
+  it('should be able to change password', function (done) {
     var password = faker.internet.password();
     var email = faker.internet.email();
 
@@ -129,7 +150,7 @@ describe('Authenticable', function() {
     expect(user.changePassword).to.be.a('function');
 
     user
-      .changePassword(faker.internet.password(), function(error,
+      .changePassword(faker.internet.password(), function (error,
         authenticable) {
         if (error) {
           done(error);
@@ -144,7 +165,7 @@ describe('Authenticable', function() {
       });
   });
 
-  it('should have static authenticate method', function(done) {
+  it('should have static authenticate method', function (done) {
     var User = mongoose.model('AUser');
 
     expect(User.authenticate).to.exist;
@@ -153,7 +174,7 @@ describe('Authenticable', function() {
     done();
   });
 
-  it('should have instance authenticate method', function(done) {
+  it('should have instance authenticate method', function (done) {
     var User = mongoose.model('AUser');
     var user = new User();
 
@@ -163,7 +184,7 @@ describe('Authenticable', function() {
     done();
   });
 
-  it('should be able to authenticate credentials', function(done) {
+  it('should be able to authenticate credentials', function (done) {
     var credentials = {
       email: faker.internet.email(),
       password: faker.internet.password()
@@ -174,21 +195,20 @@ describe('Authenticable', function() {
 
     var User = mongoose.model('AUser');
 
-    async
-    .waterfall(
+    async.waterfall(
       [
-        function(next) {
+        function (next) {
           User
             .register(credentials, next);
         },
-        function(authenticable, next) {
+        function (authenticable, next) {
           User.confirm(authenticable.confirmationToken, next);
         },
-        function(authenticable, next) {
+        function (authenticable, next) {
           User.authenticate(_credentials, next);
         }
       ],
-      function(error, authenticable) {
+      function (error, authenticable) {
         if (error) {
           done(error);
         } else {
@@ -203,7 +223,7 @@ describe('Authenticable', function() {
 
   it(
     'should throw error when authenticate credentials with invalid password',
-    function(done) {
+    function (done) {
       var credentials = {
         email: faker.internet.email(),
         password: faker.internet.password()
@@ -215,21 +235,20 @@ describe('Authenticable', function() {
 
       var User = mongoose.model('AUser');
 
-      async
-      .waterfall(
+      async.waterfall(
         [
-          function(next) {
+          function (next) {
             User
               .register(credentials, next);
           },
-          function(authenticable, next) {
+          function (authenticable, next) {
             User.confirm(authenticable.confirmationToken, next);
           },
-          function(authenticable, next) {
+          function (authenticable, next) {
             User.authenticate(_credentials, next);
           }
         ],
-        function(error /*, authenticable*/ ) {
+        function (error /*, authenticable*/ ) {
           expect(error).to.exist;
           expect(error.message).to.equal('Incorrect email or password');
           done();
