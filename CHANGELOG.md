@@ -1,3 +1,9 @@
+#### 0.6.1 (2019-06-08)
+
+##### Refactors
+
+* **authenticable:**  ensure auth fields are required ([10c911ad](https://github.com/lykmapipo/irina/commit/10c911ad389d1abff3c5e78a4ef34657a634fc45))
+
 #### 0.6.0 (2019-06-08)
 
 ##### Chores
