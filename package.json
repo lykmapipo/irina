@@ -61,12 +61,12 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": "^5.5.13"
+    "mongoose": ">=5.5.13"
   },
   "dependencies": {
-    "async": "^3.0.1",
-    "bcryptjs": "^2.4.3",
-    "lodash": "^4.17.11",
-    "moment": "^2.24.0"
+    "async": ">=3.0.1",
+    "bcryptjs": ">=2.4.3",
+    "lodash": ">=4.17.11",
+    "moment": ">=2.24.0"
   }
 }
