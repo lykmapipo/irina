@@ -59,9 +59,10 @@
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
+    "handlebars": "^4.1.2",
     "jshint-stylish": "^2.2.1",
     "mocha": "^6.1.4",
-    "mongoose": ">=5.5.13"
+    "mongoose": ">=5.5.14"
   },
   "dependencies": {
     "async": ">=3.0.1",
