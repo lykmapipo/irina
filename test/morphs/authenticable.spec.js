@@ -12,7 +12,9 @@ var irina = require(path.join(__dirname, '..', '..', 'index'));
 
 describe('Authenticable', function () {
   before(function (done) {
-    var UserSchema = new Schema({});
+    var UserSchema = new Schema({
+      mobile: { type: String }
+    });
     UserSchema.plugin(irina);
     mongoose.model('AUser', UserSchema);
     done();
@@ -21,7 +23,9 @@ describe('Authenticable', function () {
   describe('Authenticable Fields', function () {
     it('should be able to set defaults authentication fields',
       function (done) {
-        var UserSchema = new Schema({});
+        var UserSchema = new Schema({
+          mobile: { type: String }
+        });
         UserSchema.plugin(irina);
 
         var User = mongoose.model('BUser', UserSchema);
@@ -55,7 +59,8 @@ describe('Authenticable', function () {
     it('should use schema authentication fields', function (done) {
       var UserSchema = new Schema({
         username: { type: String },
-        hash: { type: String }
+        hash: { type: String },
+        mobile: { type: String }
       });
       UserSchema.plugin(irina, {
         authenticationField: 'username',
@@ -254,4 +259,41 @@ describe('Authenticable', function () {
           done();
         });
     });
+
+  it('should be able to authenticate custom credentials', function (done) {
+    var user = {
+      email: faker.internet.email().toLowerCase(),
+      mobile: faker.helpers.replaceSymbolWithNumber('255714######'),
+      password: faker.internet.password()
+    };
+
+    var credentials = _.pick(user, 'mobile', 'password');
+
+    var User = mongoose.model('AUser');
+
+    async.waterfall(
+      [
+        function (next) {
+          User
+            .register(user, next);
+        },
+        function (authenticable, next) {
+          User.confirm(authenticable.confirmationToken, next);
+        },
+        function (authenticable, next) {
+          User.authenticate(credentials, next);
+        }
+      ],
+      function (error, authenticable) {
+        if (error) {
+          done(error);
+        } else {
+          expect(authenticable).to.not.be.null;
+          expect(authenticable.email).to.be.equal(user.email);
+          expect(authenticable.mobile).to.be.equal(user.mobile);
+
+          done();
+        }
+      });
+  });
 });
