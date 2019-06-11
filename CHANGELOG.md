@@ -1,3 +1,13 @@
+#### 0.7.0 (2019-06-11)
+
+##### Documentation Changes
+
+* **changelog:**  generate latest release notes ([fdce6ab3](https://github.com/lykmapipo/irina/commit/fdce6ab32475afd00582ca974080e9332b74871a))
+
+##### New Features
+
+*  allow authenticate using different fields ([cf11c895](https://github.com/lykmapipo/irina/commit/cf11c8955af9b6fb3bd04b663cfa75108b59be06))
+
 #### 0.6.2 (2019-06-10)
 
 #### 0.6.1 (2019-06-08)
