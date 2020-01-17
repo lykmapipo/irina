@@ -59,7 +59,7 @@
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
-    "handlebars": "^4.7.0",
+    "handlebars": "^4.7.2",
     "jshint-stylish": "^2.2.1",
     "mocha": "^7.0.0",
     "mongoose": ">=5.8.7"
