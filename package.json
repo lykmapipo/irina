@@ -30,7 +30,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "NODE_ENV=test grunt test"
   },
   "repository": {
     "type": "git",
@@ -59,10 +59,10 @@
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
-    "handlebars": "^4.7.3",
+    "handlebars": "^4.7.6",
     "jshint-stylish": "^2.2.1",
     "mocha": "^7.1.1",
-    "mongoose": ">=5.9.6"
+    "mongoose": ">=5.9.7"
   },
   "dependencies": {
     "async": ">=3.2.0",

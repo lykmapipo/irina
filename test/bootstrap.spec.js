@@ -5,12 +5,15 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 
-before(function(done) {
-    mongoose.connect('mongodb://localhost/irina', { useNewUrlParser: true }, done);
+before(function (done) {
+  mongoose.connect('mongodb://localhost/irina', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, done);
 });
 
 
 //clean database
-after(function(done) {
-    mongoose.connection.dropDatabase(done);
+after(function (done) {
+  mongoose.connection.dropDatabase(done);
 });
