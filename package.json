@@ -55,19 +55,19 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "grunt": "^1.1.0",
+    "grunt": "^1.2.1",
     "grunt-contrib-jshint": "^2.1.0",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "handlebars": "^4.7.6",
     "jshint-stylish": "^2.2.1",
     "mocha": "^8.0.1",
-    "mongoose": ">=5.9.21"
+    "mongoose": ">=5.9.24"
   },
   "dependencies": {
     "async": ">=3.2.0",
     "bcryptjs": ">=2.4.3",
-    "lodash": ">=4.17.15",
+    "lodash": ">=4.17.19",
     "moment": ">=2.27.0"
   }
 }
